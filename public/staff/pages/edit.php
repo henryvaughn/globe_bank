@@ -5,7 +5,6 @@ require_once('../../../private/initialize.php');
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/pages/index.php'));
 }
-
 $id = $_GET['id'];
 
 if(is_post_request()) {
@@ -21,17 +20,21 @@ if(is_post_request()) {
   $page['content'] = $_POST['content'] ?? '';
 
   $result = update_page($page);
-  redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+  if($result === true) {
+    redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+  } else {
+    $errors = $result;
+  }
 
 } else {
 
   $page = find_page_by_id($id);
 
-  $page_set = find_all_pages();
-  $page_count = mysqli_num_rows($page_set);
-  mysqli_free_result($page_set);
-
 }
+
+$page_set = find_all_pages();
+$page_count = mysqli_num_rows($page_set);
+mysqli_free_result($page_set);
 
 ?>
 
@@ -44,6 +47,8 @@ if(is_post_request()) {
 
   <div class="page edit">
     <h1>Edit Page</h1>
+
+    <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
