@@ -21,7 +21,7 @@ if(is_post_request()) {
   // display the blank form
   $subject = [];
   $subject["menu_name"] = '';
-  $subject["position"] = $subject_count;
+  $subject["position"] = '';
   $subject["visible"] = '';
 }
 
@@ -68,7 +68,7 @@ mysqli_free_result($subject_set);
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?php if($subject['visible'] == "1") { echo " checked"; } ?> />
+          <input type="checkbox" name="visible" value="1"<?php if($subject['visible'] == 1) { echo " checked"; } ?> />
         </dd>
       </dl>
       <div id="operations">
